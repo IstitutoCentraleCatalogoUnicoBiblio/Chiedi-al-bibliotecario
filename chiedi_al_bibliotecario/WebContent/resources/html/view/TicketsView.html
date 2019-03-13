@@ -1,0 +1,201 @@
+<ng-include src=" 'html/templates/navbar.html' "></ng-include>
+<div class="container">
+	<div id="titlepage" class="col-md-auto row">
+		<div class="col-md-12 margin-top-20 display-inherit ">
+			<div class="col-md-3 padding-0">
+				<h3>{{(controller | translate) }}</h3>
+				<span class="action-link-blue" ng-click="showFilters()" title="{{ (isShowingFilters) ? 'label_hide_filters' :'label_show_filters' | translate}}">
+					{{(isShowingFilters) ? "label_hide_filters" :"label_show_filters" | translate}} </span>
+				<span> {{' - '+ ( 'tot_richieste' | translate ) +' ' + paginationProps.total}}</span>
+			</div>
+		</div>
+	</div>
+	<div id="buttonBar" class="col-md-auto row align-items-center"
+		style="display: none">
+		<div class="col-sm-12"
+			ng-click="cancelFilters()" title="{{ 'label_clear_filters'| translate}}">
+			<span class=" action-link-blue">{{"label_clear_filters" |
+			translate}}
+			</span>
+		</div>
+		
+			<div ng-class="['align-self-center','col-md-3']">
+
+				<button
+					ng-class="['btn', 'btn-primary','btn-sm','action-link',{'disabled-no-action': filters.aperto === undefined}]"
+					ng-click="applyFilter('aperto', undefined)">
+					{{'btn_ticket_tutti' | translate}}</button>
+				<button
+					ng-class="['btn', 'btn-primary','btn-sm','action-link',{'disabled-no-action': filters.aperto === true}]"
+					ng-click="applyFilter('aperto', true)">
+					{{'btn_ticket_aperti' | translate}}</button>
+				<button
+					ng-class="['btn', 'btn-primary','btn-sm','action-link',{'disabled-no-action': filters.aperto === false}]"
+					ng-click="applyFilter('aperto', false)">
+					{{'btn_ticket_chiusi' | translate}}</button>
+				<!-- 	<button ng-show="user.isBibliotecario"
+				ng-class="['btn', {'btn-primary':filters.user_assegnato == user.username},'btn-sm','action-link',{'btn-outline-success':filters.user_assegnato != user.username}]"
+				ng-click="applyFilter('user_assegnato', ((filters.user_assegnato == user.username) ? null : user.username))">
+				{{'btn_ticket_assegnati_a_me' | translate}}</button> -->
+
+			</div>
+
+			<div class="col-md-5 justify-content-center align-items-center">
+				<table>
+					<tr>
+						<td>{{'btn_miei_ticket'| translate}}</td>
+						<td><label class="switch" style="top: 5px; left: 5px;">
+								<input
+								ng-click=" $event.stopProgation(); applyFilter('user_ins', ((filters.user_ins == user.username) ? null : user.username))"
+								type="checkbox" ng-checked="filters.user_ins == user.username">
+								<span ng-click="$event.stopProgation(); " class="slider round"></span>
+						</label></td>
+						<td>&nbsp;&nbsp;&nbsp;</td>
+						<td ng-show="user.isBibliotecario">
+							{{'btn_ticket_assegnati_a_me' | translate}}
+						<td ng-show="user.isBibliotecario"><label class="switch"
+							style="top: 5px; left: 5px;"> <input
+								ng-click=" $event.stopProgation(); applyFilter('user_assegnato', ((filters.user_assegnato == user.username) ? null : user.username))"
+								type="checkbox"
+								ng-checked="filters.user_assegnato == user.username"> <span
+								ng-click="$event.stopProgation(); " class="slider round"></span>
+						</label></td>
+					</tr>
+				</table>
+
+			</div>
+			<div class="col-md-4">
+				<div class="input-group" ng-click="$event.stopProgation();">
+					<input type="text" class="form-control"
+						placeholder="{{'placeholder_cerca_testo' | translate}}"
+						aria-label="{{'placeholder_cerca_testo' | translate}}"
+						aria-describedby="basic-addon2" ng-model="testo" ng-click="$event.stopProgation();"
+						ng-change="updateEmptyText(testo)">
+					<div class="input-group-append">
+						<span class="input-group-text action-link-blue" id="basic-addon2"
+							ng-click=" $event.stopProgation(); applyFilter('testo', ((testo != '') ? testo : null))">{{'placeholder_cerca'
+							| translate}}</span>
+					</div>
+				</div>
+			</div>
+		
+		<div class="col-md-12">
+				<table class="col-md-12">
+					<tr>
+					
+						<td  style="width: 20%;">{{'label_biblioteca_destinataria' |
+							translate}}</td>
+						<td  style="width: 30%;"><select
+							class="form-control form-control-sm" id="bibliotecheSelect"
+							ng-model="filters.cod_biblioteca_ind"
+							ng-change="applyFilter('cod_biblioteca_ind', filters.cod_biblioteca_ind)">
+								<option></option>
+								<option ng-repeat="biblioteca in biblioteche"
+									value="{{biblioteca.cod_bib}}">{{biblioteca.nome}}</option>
+						</select></td>
+						<td>&nbsp;&nbsp;&nbsp;</td>
+						<td style="width: 10%;">{{'label_id_categoria' | translate}}</td>
+						<td style="width: 35%;"><select class="form-control form-control-sm" id="cats"
+							ng-model="filters.id_cat"
+							ng-change="applyFilter('id_cat', filters.id_cat)">
+
+								<option></option>
+								<option ng-repeat="cat in categories" ng-value="{{cat.id}}">{{cat.testo_it}}</option>
+						</select></td>
+				
+					</tr>
+				</table>
+		
+		</div>
+
+	</div>
+	<div id="ticketlist" class="col-md-auto row">
+		<div class="col-md-12">
+			<div class="card important-no-border" ng-show="isLoading">
+				<div class=" justify-content-center">
+					<center>
+						<div class="loader"></div>
+					</center>
+				</div>
+			</div>
+			<div ng-show="tickets.length > 0 && !isLoading"
+				class="card margin-top-10" ng-repeat="ticket in tickets">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<span class="h5 action-link color-blue"  ng-click="dettaglio(ticket)">{{"#" +ticket.id + " " + ticket.titolo }}
+								<!-- rimosso riunione 25 maggio 2018 {{((ticket.id_doc) ? '(' + ticket.id_doc + ')' : '')}} -->
+							</span> <span class="h5 font-italic action-link color-blue" ng-if="ticket.id_cat != null"  ng-click="dettaglio(ticket)">{{'
+								in '+ categories[findIndex(categories,'id',
+								ticket.id_cat)].testo_it | lowercase}}</span>
+						</div>
+					</div>
+					<div class="row card-text">
+						<div
+							ng-class="[{'col-md-10': ticket.allegato},{'col-md-12': !ticket.allegato},'text-left']">{{(ticket.testo
+							| limitTo: 200) + ((ticket.testo.length > 200) ? ' [...]' : '')}}</div>
+						<div class="col-md-2 text-center" ng-if="ticket.allegato">
+							<div class="col-md-12">
+								<img class="img-fluid" ng-src='images/paperclip.png'
+									onerror="this.src = 'images/paperclip.png';">
+							</div>
+
+						</div>
+
+					</div>
+					<span class="h6 card-link">{{ticket.ts_ins | date:
+						'dd/MM/yyyy'}}</span> 
+						<span ng-if="ticket.messagesCount > 0" ng-click="dettaglio(ticket)"
+						class="h6 card-link action-link color-blue">{{('label_risposte_presenti' |
+						translate) + " " + ticket.messagesCount}}</span>
+						 <span
+						class="h6 card-link">{{("label_inserito_da"
+						| translate) + " " }}<i>{{ticket.user_ins | translate}}</i>
+
+					</span>
+					 <span
+						ng-if="ticket.user_assegnato != null && ticket.aperto"
+						ng-class="['badge','badge-pill' ,'badge-success', 'card-link']">
+						{{(("label_assegnato" | translate) | lowercase) + ticket.user_assegnato}}</span> 
+						<span
+						ng-if="ticket.user_assegnato == null && ticket.aperto"
+						ng-class="['badge','badge-pill' ,'badge-info','card-link']">
+						{{("label_ancora_non_assegnato"|translate) | lowercase}} </span>
+					<span
+						ng-class="['badge','badge-pill' ,'badge-warning', 'card-link']"
+						ng-if="ticket.user_assegnato != null && !ticket.aperto">
+						{{'label_closed' | translate}}</span> 
+						<!--  <a
+						class="h6-link card-link action-link" ng-click="dettaglio(ticket)">{{'label_visualizza_dettaglio'
+						| translate}}</a>-->
+						 </span>
+						
+
+
+
+				</div>
+			</div>
+			<div class="card margin-top-10 important-no-border"
+				ng-show="tickets.length > 0 && !isLoading">
+				<ul class="pagination justify-content-center">
+					<!-- <li
+						ng-class="['page-item',{'disabled' : paginationProps.currentPage > 1}]"><a
+						class="page-link" href="#" ng-click="loadPage( 0, $index +1)">Previous</a></li> -->
+					<li ng-repeat="pag in pagine track by $index"
+						ng-class="['page-item', 'action-link-blue', {'disabled disabled-no-action': paginationProps.currentPage == pag.pag}]"><a
+						class="page-link" ng-click="loadPage( pag.start, pag.pag)">{{$index
+							+ 1}}</a></li>
+					<!-- 
+					<li class="page-item"><a class="page-link action-link-blue">Next</a></li> -->
+				</ul>
+			</div>
+			<div class="card important-no-border margin-top-20"
+				ng-show="tickets.length == 0 && !isLoading">
+				<div class="card-text text-center margin-top-50">
+					<h2>{{"label_404" | translate}}</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<ng-include src=" 'html/templates/footer.html' "></ng-include>

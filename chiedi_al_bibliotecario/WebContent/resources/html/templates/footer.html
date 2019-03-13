@@ -1,0 +1,28 @@
+<footer class="page-footer">
+	<div class="footer-copyright py-5 text-center font-piccolo">
+ <img src="images/iccu.png" class="img-responsive" style="    display: inline;
+    max-width: 31px;">
+    Copyright &copy; 2018  <a target="_blank" href="http://www.iccu.sbn.it">ICCU | Istituto Centrale per il Catalogo Unico delle biblioteche italiane e per le informazioni bibliografiche</a>  
+    <br> {{'realizzato_da' | translate}} <a target="_blank" href="http://www.almaviva.it">Almaviva S.p.A.</a>
+  	</div>
+</footer>
+
+<!-- Modal -->
+<div class="modal fade" id="logOutModal" tabindex="-1" role="dialog" aria-labelledby="logOutModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle" title="{{'confirm_logout_title' | translate}}">{{'confirm_logout_title' | translate}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-footer">
+         <button type="button" class="btn btn-primary btn-sm" ng-click="logout()" title="{{'btn_conferma' | translate}}">
+         {{'btn_conferma'| translate}}</button>
+        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" title="{{'btn_annulla' | translate}}">{{'btn_annulla'| translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>

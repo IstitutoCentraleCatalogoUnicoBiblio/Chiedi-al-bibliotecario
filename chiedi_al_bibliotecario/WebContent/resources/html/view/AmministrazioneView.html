@@ -1,0 +1,360 @@
+<ng-include src=" 'html/templates/navbar.html' "></ng-include>
+
+<div class="container">
+	<div id="titlepage" class="col-md-auto row">
+		<div class="col-md-12 margin-top-20"
+			style="margin-left: -10px !important; padding-left: 0;">
+			<div class="col-md-12">
+				<h3>{{(controller | translate)}}</h3>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-auto row justify-content-center" ng-show="isLoading">
+		<center>
+			<div class="loader"></div>
+		</center>
+	</div>
+	<div class="col-md-auto row justify-content-center"
+		ng-show="!isLoading">
+		<div class="card col-md-12">
+			<div class="card-body" ng-show="!isEditing">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item"><a class="nav-link active" id="login-tab"
+						data-toggle="tab" href="#categories" target="_self" role="tab"
+						aria-controls="home" aria-selected="true">{{'label_categories'
+							| translate}}</a></li>
+					<li class="nav-item"><a class="nav-link" id="home-tab"
+						data-toggle="tab" href="#users" target="_self" role="tab"
+						aria-controls="register" aria-selected="false">{{'label_users'|
+							translate}}</a></li>
+					<li class="nav-item"><a class="nav-link" id="faq-link-tab"
+						data-toggle="tab" href="#faq" target="_self" role="tab"
+						aria-controls="register" aria-selected="false"
+						aria-label="{{'label_faq'|
+							translate}}">{{'label_faq'|
+							translate}}</a></li>
+
+					<li class="nav-item"><a class="nav-link"
+						id="biblioteche-link-tab" data-toggle="tab"
+						href="#biblioteche-tab" target="_self" role="tab"
+						aria-controls="biblioteche-tab" aria-selected="false"
+						aria-label="{{'label_biblioteche'|
+							translate}}">{{'label_biblioteche'|
+							translate}}</a></li>
+				</ul>
+				<div class="tab-content" id="myTabContent">
+					<div class="tab-pane fade show active" id="categories"
+						role="tabpanel" aria-labelledby="login-tab">
+						<div class="table-responsive">
+
+							<table class="table table-hover table-sm margin-top-15">
+								<!-- <thead>
+									<td></td>
+									<td>{{'label_id_categoria'| translate}}</td>
+									<td>{{'label_azioni' | translate}}</td>
+
+								</thead> -->
+								<tbody>
+									<tr ng-repeat="cat in categories">
+										<td>{{cat.cd_categoria}}</td>
+										<td>{{cat.testo_it}}</td>
+										<td>
+
+											<button ng-class="['btn', 'btn-warning', 'btn-sm']"
+												ng-click="onStartEdit(cat,'categoria', 'edit')">
+												{{'btn_modifica' | translate}}</button>
+											<button ng-class="['btn', 'btn-danger', 'btn-sm']"
+												ng-click="onStartEdit(cat,'categoria', 'delete')">
+												{{'btn_elimina' | translate}}</button>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-12 text-center">
+							<button ng-class="['btn', 'btn-primary', 'btn-sm']"
+								ng-click="onStartEdit({},'categoria', 'add')">
+								{{'btn_aggiungi' | translate}}</button>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="users" role="tabpanel"
+						aria-labelledby="users-tab">
+						<div class="table-responsive">
+							<table class="table table-hover  table-sm margin-top-15">
+								<thead>
+
+									<td>{{'label_email' | translate}}</td>
+									<td>{{'label_username' | translate}}</td>
+									<td>{{'label_isBibliotecario' | translate}}</td>
+									<td>{{'label_azioni' | translate}}</td>
+								</thead>
+								<tbody>
+
+									<tr ng-repeat="usr in users">
+
+										<td>{{usr.email}}</td>
+										<td>{{usr.username}}</td>
+										<td>{{usr.isBibliotecario | translate}}</td>
+										<td>
+											<button ng-show="!usr.isBibliotecario"
+												ng-class="['btn', 'btn-primary', 'btn-sm']"
+												ng-click="onStartEdit(usr,'user', 'nominaBib')"
+												title="{{'btn_nomina_bibliotecario' | translate}}">
+												{{'btn_nomina_bibliotecario' | translate}}</button>
+											<button ng-show="usr.isBibliotecario"
+												ng-class="['btn', 'btn-secondary', 'btn-sm']"
+												ng-click="onStartEdit(usr,'user', 'revocaBib')"
+												title="{{'btn_revoca_bib' | translate}}">
+												{{'btn_revoca_bib' | translate}}</button>
+											<button ng-if="false"
+												ng-class="['btn', 'btn-warning', 'btn-sm']"
+												ng-click="onStartEdit(usr,'user', 'edit')"
+												title="{{'btn_modifica' | translate}}">
+												{{'btn_modifica' | translate}}</button>
+											<button ng-class="['btn', 'btn-warning', 'btn-sm']"
+												ng-click="onStartEdit(usr,'user', 'resetPsw')"
+												ng-disabled="usr.sbnweb"
+												title="{{ (usr.sbnweb) ? 'NOT_PSW_CAN_CHANGE_SBNWEB'
+												: 'btn_reset_psw' | translate}}">
+												{{'btn_reset_psw' | translate}}</button>
+											<button ng-class="['btn', 'btn-danger', 'btn-sm']"
+												ng-click="onStartEdit(usr,'user', 'delete')"
+												title="{{'btn_elimina' | translate}}"
+												title="{{'btn_modifica' | translate}}">
+												{{'btn_elimina' | translate}}</button>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="faq" role="tabpanel"
+						aria-labelledby="faq-tab">
+						<div class="table-responsive">
+							<table class="table-hover table-sm margin-top-15">
+								<!-- <thead>
+									<td></td>
+									<td>{{'label_id_categoria'| translate}}</td>
+									<td>{{'label_azioni' | translate}}</td>
+
+								</thead> -->
+								<tbody>
+									<tr ng-repeat="faq in faqs">
+										<td>{{faq.cd_faq}}</td>
+										<td>{{faq.domanda}}</td>
+										<td>{{faq.risposta}}</td>
+								
+										<td style="width: 25%">
+											<div style="display: inline !important;">
+											<button ng-class="['btn', 'btn-warning', 'btn-sm']"
+												ng-click="onStartEdit(faq,'faq', 'edit')">
+												{{'btn_modifica' | translate}}</button>
+											<button ng-class="['btn', 'btn-danger', 'btn-sm']"
+												ng-click="onStartEdit(faq,'faq', 'delete')">
+												{{'btn_elimina' | translate}}</button>
+												</div>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-12 text-center margin-top-15">
+							<button ng-class="['btn', 'btn-primary', 'btn-sm']"
+								ng-click="onStartEdit({},'faq', 'add')">
+								{{'btn_aggiungi' | translate}}</button>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="biblioteche-tab" role="tabpanel"
+						aria-labelledby="biblioteche-tab">
+						<div class="table-responsive">
+
+							<table class="table table-hover  table-sm margin-top-15">
+								<tbody>
+									<tr ng-repeat="biblioteca in biblioteche">
+										<td>{{biblioteca.cod_bib}}</td>
+										<td>{{biblioteca.nome}}</td>
+										<td>
+											<!-- <button ng-class="['btn', 'btn-warning', 'btn-sm']"
+												ng-click="onStartEdit(biblioteca,'biblioteca', 'edit')">
+												{{'btn_modifica' | translate}}</button> -->
+											<button ng-class="['btn', 'btn-danger', 'btn-sm']"
+												ng-click="onStartEdit(biblioteca,'biblioteca', 'delete')">
+												{{'btn_elimina' | translate}}</button>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-12 text-center">
+							<button ng-class="['btn', 'btn-primary', 'btn-sm']"
+								ng-click="onStartEdit({cod_polo: conf_polo.cod_polo, cd_biblioteca: '' },'biblioteca', (conf_polo.cod_polo == '') ? 'add' : 'importBib')">
+								{{'btn_aggiungi' | translate}}</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="card-body" ng-show=isEditing>
+				<div class="col-md-auto">
+					<form>
+						<div class="form-group row margin-bottom-0"
+							ng-show="(toEdit.action == 'edit' || toEdit.action == 'add') && toEdit.type == 'categoria'">
+							<label for="codice_categoria"
+								class="col-sm-2 col-form-label-sm text-right">{{('label_cod_categoria'|
+								translate) + " *"}}</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control form-control-sm"
+									id="codice_categoria" ng-model="toEdit.obj.cd_categoria">
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0"
+							ng-show="(toEdit.action == 'edit' || toEdit.action == 'add') && toEdit.type == 'categoria'">
+							<label for="cat_text"
+								class="col-sm-2 col-form-label-sm  text-right">{{('label_id_categoria'|
+								translate) + " *"}}</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control form-control-sm"
+									id="cat_text" ng-model="toEdit.obj.testo_it">
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0"
+							ng-show="(toEdit.action == 'edit' || toEdit.action == 'add') && toEdit.type == 'faq'">
+							<label for="codice_faq"
+								class="col-sm-2 col-form-label-sm text-right">{{('label_cod_faq'|
+								translate) + " *"}}</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control form-control-sm"
+									id="codice_faq" ng-model="toEdit.obj.cd_faq">
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0"
+							ng-show="(toEdit.action == 'edit' || toEdit.action == 'add') && toEdit.type == 'faq'">
+							<label for="domanda_faq"
+								class="col-sm-2 col-form-label-sm  text-right">{{('label_faq_domanda'|
+								translate) + " *"}}</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control form-control-sm"
+									id="domanda_faq" ng-model="toEdit.obj.domanda">
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0"
+							ng-show="(toEdit.action == 'edit' || toEdit.action == 'add') && toEdit.type == 'faq'">
+							<label for="risposta_faq"
+								class="col-sm-2 col-form-label-sm  text-right">{{('label_faq_risposta'|
+								translate ) + " *"}}</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control form-control-sm"
+									id="risposta_faq" ng-model="toEdit.obj.risposta">
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0"
+							ng-show="(toEdit.action == 'importBib' || toEdit.action == 'add') && toEdit.type == 'biblioteca'">
+							<label for="cd_biblioteca"
+								class="col-sm-2 col-form-label-sm  text-right"
+								style="padding-left: 0px">{{('label_cod_biblioteca'|
+								translate ) + " *"}}</label>
+							<div class="col-sm-1">
+								<input type="text" class="form-control form-control-sm "
+									id="cod_polo" ng-model="toEdit.obj.cod_polo"
+									maxlength="3" disabled>
+							</div>
+							<div class="col-sm-1">
+								<input type="text" class="form-control form-control-sm "
+									id="cd_biblioteca" ng-model="toEdit.obj.cd_biblioteca"
+									maxlength="2">
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0"
+							ng-show="(toEdit.action == 'add' ) && toEdit.type == 'biblioteca'">
+							<label for="nome_biblioteca"
+								class="col-sm-2 col-form-label-sm  text-right"
+								style="padding-left: 0px">{{('label_nome_biblioteca'|
+								translate ) + " *"}}</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control form-control-sm "
+									id="nome_biblioteca" ng-model="toEdit.obj.nome"
+									ng-disabled="(toEdit.action == 'importBib' ) && toEdit.type == 'biblioteca'">
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0 justify-content-center"
+							ng-show="toEdit.action == 'nominaBib'">
+							{{('label_sicuro_nominare' | translate)}}<b>&nbsp;{{toEdit.obj.username}}&nbsp;</b>{{('label_come_bibliotecario'
+							| translate) + '?'}}
+						</div>
+						<div class="form-group row margin-bottom-0 justify-content-center"
+							ng-show="toEdit.action == 'revocaBib'">
+							{{('label_sicuro_revocare_bib' | translate)}}<b>&nbsp;{{toEdit.obj.username}}&nbsp;</b>{{('label_come_bibliotecario'
+							| translate) + '?'}}
+						</div>
+						<div class="form-group row margin-bottom-0 justify-content-center"
+							ng-show="toEdit.action == 'delete' && toEdit.type == 'user'">
+							{{('label_sicuro_eliminare' | translate)}}<b>&nbsp;{{toEdit.obj.username}}</b>{{'?'}}
+						</div>
+						<div class="form-group row margin-bottom-0 justify-content-center"
+							ng-show="toEdit.action == 'delete' && toEdit.type == 'biblioteca'">
+							{{('label_sicuro_eliminare' | translate)}}<b>&nbsp;{{toEdit.obj.nome}}</b>{{'?'}}
+						</div>
+						<div class="form-group row margin-bottom-0 justify-content-center"
+							ng-show="toEdit.action == 'delete-ticket-presenti' && toEdit.type == 'biblioteca'">
+							{{('RICHIESTE_ASSOCIATE_BIB' | translate)}}<b>&nbsp;{{toEdit.obj.nome}}</b>{{'?'}}
+						</div>
+						<div class="form-group row margin-bottom-0 justify-content-center"
+							ng-show="toEdit.action == 'delete' && toEdit.type == 'categoria'">
+							{{('label_sicuro_eliminare' | translate)}}<b>&nbsp;{{toEdit.obj.testo_it}}</b>{{'?'}}
+						</div>
+						<div class="form-group row margin-bottom-0 justify-content-center"
+							ng-show="toEdit.action == 'delete' && toEdit.type == 'faq'">
+							{{('label_sicuro_eliminare' | translate)}}<b>&nbsp;{{toEdit.obj.domanda}}</b>
+						</div>
+						<div class="form-group row margin-bottom-0 justify-content-center"
+							ng-show="toEdit.action == 'resetPsw' && toEdit.type == 'user'">
+							{{('label_sicuro_reimposta_psw' | translate)}}<b>&nbsp;{{toEdit.obj.username}}</b>{{'?'}}
+						</div>
+						<div
+							ng-show="toEdit.action == 'edit' || toEdit.action == 'add' || toEdit.action == 'importBib'"
+							class="form-group row margin-bottom-0 margin-top-10">
+							<label
+								class="col-sm-12 col-form-label-sm color-yellow font-size-piccolo">{{'label_campi_asterisco'|
+								translate}} </label>
+
+						</div>
+						<div
+							class="form-group row margin-bottom-0 text-center margin-top-20">
+							<div class="col-md-12 margin-top-20">
+								
+								<button
+									ng-show="toEdit.action == 'delete' || toEdit.action == 'edit' || toEdit.action == 'add' || toEdit.action == 'delete-ticket-presenti' || toEdit.action == 'revocaBib' || toEdit.action == 'nominaBib'"
+									ng-class="['btn', 'btn-primary', 'btn-sm']" ng-click="onSave()">{{(toEdit.action
+									== 'delete' || toEdit.action == 'delete-ticket-presenti')
+									?'btn_conferma':'btn_salva' | translate}}</button>
+								<button ng-show="toEdit.action == 'importBib'"
+									ng-class="['btn', 'btn-primary', 'btn-sm']" ng-click="onSave()">{{'btn_importa_bib_da_opac'
+									| translate}}</button>
+									
+									<button ng-class="['btn', 'btn-danger', 'btn-sm']"
+									ng-click="onCancelEditing()">{{'btn_annulla' |
+									translate}}</button>
+							</div>
+						</div>
+						<div id="alert"
+							class="px-top-10 form-group row margin-bottom-0 text-left col-md-12 margin-top-20">
+							<div id="alert" class="alert alert-warning col-md-12" role="alert">
+								{{error_text | translate}}
+								<button type="button" class="close" ng-click="dismissAlert()"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<span class="font-piccolo">{{( 'versione_applicativo' | translate ) + " " + applicationBuild.appVersion.version + " - "}}
+					{{( 'ultimo_release' | translate ) + " " + applicationBuild.appVersion.last_release }}
+					</span>
+		</div>
+		
+	</div>
+	<ng-include src=" 'html/templates/footer.html' "></ng-include>

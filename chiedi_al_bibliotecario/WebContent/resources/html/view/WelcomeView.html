@@ -1,0 +1,27 @@
+<ng-include src=" 'html/templates/navbar.html' "></ng-include>
+<div class="container">
+
+	<div class="col-md-auto margin-top-20">
+		<div class="card text-center">
+			 <div class="col-md-21 margin-top-20">
+
+				<h4>{{('label_benvenuto' | translate)}}</h4>
+				<h2>{{user.username}}</h2> 
+			</div>
+			<div class="col-md-21 margin-top-10">
+				<!-- <div class="color-blue margin-top-50" >{{('label_bentornato' | translate) +
+					" " + applicationBuild.applicationName}}</div> -->
+				<div ng-show="!user.passwordIsToReset" class="color-blue margin-top-50 action-link">
+					<a ng-click="redirectTo(conf_polo.cod_polo + '/segnalazioni')">{{'label_leggi_segnalazioni'
+						|translate}}</a>
+				</div>
+				<div ng-show="user.passwordIsToReset" class="color-yellow margin-top-20 action-link"
+				ng-click="redirectTo(conf_polo.cod_polo + '/profilo/' + user.username)" style="display: inline-flex;">
+					<i class="material-icons">error_outline</i> {{"label_psw_to_reset" | translate}}
+					</div>
+				<div  class=" margin-top-20"></div>
+			</div>
+			</div>
+		</div>
+		
+<ng-include src=" 'html/templates/footer.html' "></ng-include>

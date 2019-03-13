@@ -1,0 +1,270 @@
+<ng-include src=" 'html/templates/navbar.html' "></ng-include>
+<div class="container">
+
+	<div class="col-md-auto margin-top-20">
+		<div class="card" ng-show="!conf_polo.cod_polo && poli_disponibili">
+			<div class="card-body">
+				<h5>{{'select_polo' | translate}}</h5>
+				<ul ng-repeat="polo in poli_disponibili">
+				<li><a ng-href="#" ng-click="onSelectPolo(polo.cod_polo)">{{polo.cod_polo + ' - ' + polo.nome_polo}}</a></li>
+				</ul>
+			</div> 
+		</div>
+
+		<div class="card" ng-show="conf_polo.cod_polo">
+			<div class="card-body">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item" ng-click="dismissAlert()"><a
+						class="nav-link active" id="login-tab" data-toggle="tab"
+						href="#login" target="_self" role="tab" aria-controls="home"
+						aria-selected="true">{{'label_login' | translate}} </a></li>
+					<li class="nav-item" ng-click="dismissAlert()"><a
+						class="nav-link" id="register-tab" data-toggle="tab"
+						href="#register" target="_self" role="tab"
+						aria-controls="register" aria-selected="false">{{'label_register'|
+							translate}} </a></li>
+					<li class="nav-item" ng-click="dismissAlert()"><a
+						class="nav-link" id="reset-psw-tab" data-toggle="tab"
+						href="#psw_reset" target="_self" role="tab"
+						aria-controls="register" aria-selected="false">{{'label_psw_dimenticata'|
+							translate}} </a></li>
+
+					</li>
+				</ul>
+			</div>
+
+			<div class="card-body">
+				<div class="tab-content" ng-show="isLoading">
+					<div class=" justify-content-center">
+						<center>
+							<div class="loader"></div>
+						</center>
+					</div>
+				</div>
+				<div class="tab-content" id="myTabContent" ng-show="!isLoading">
+					<div class="tab-pane fade show active" id="login" role="tabpanel"
+						aria-labelledby="login-tab">
+
+						<div class="col-md-auto">
+							<form ng-submit="login()">
+								<div class="form-group row margin-bottom-0">
+									<label for="userame"
+										class="col-sm-2 col-form-label-sm col-form-label-sm-sm text-right">{{('label_username_email'|
+										translate) + " *"}}</label>
+									<div class="col-sm-8">
+										<input type="text" type="text"
+											class="form-control form-control form-control form-control-sm"
+											id="username" ng-model="loginForm.username"
+											onfocus="this.removeAttribute('readonly');" readonly>
+									</div>
+								</div>
+
+								<div class="form-group row margin-bottom-0">
+									<label for="inputPassword"
+										class="col-sm-2 col-form-label-sm text-right">{{('label_password'|
+										translate)+ " *"}}</label>
+									<div class="col-sm-8">
+										<input type="password"
+											class="form-control form-control form-control-sm"
+											id="password" ng-model="loginForm.password"
+											onfocus="this.removeAttribute('readonly');" readonly>
+									</div>
+								</div>
+								<div class="form-group row margin-bottom-0 margin-top-10">
+									<label class="col-sm-8 color-blue font-size-piccolo">{{('label_user_login_sbnweb'|
+										translate)}} </label> <label
+										class="col-sm-8 color-yellow font-size-piccolo">{{'label_campi_asterisco'|
+										translate}} </label>
+
+								</div>
+								<div ng-show="false" class="form-group row margin-bottom-0">
+									<label class="col-sm-8 col-form-label-sm">{{'label_campi_asterisco'|
+										translate}} </label>
+
+								</div>
+								<!-- <div class="form-group row margin-bottom-0">
+									<label for="sbnweb" class="col-sm-2 col-form-label-sm">{{'label_sbnweb'|
+										translate}}</label>
+									<div class="col-sm-8">
+										<input type="checkbox" id="sbnweb" ng-model="sbnWeb"
+											ng-init="sbnWeb = false">
+									</div>
+								</div>  -->
+
+								<div class="form-group row margin-bottom-0  text-center">
+									<div class="col-md-12">
+										<button type="submit" title="{{ 'label_login'| translate}}"
+											ng-class="['btn', 'btn-sm', 'btn-primary', {'disabled-no-action' : login.username == '' || login.password == ''}]"
+											ng-disabled="login.username == '' || login.password == ''">{{'label_login'|
+											translate}}</button>
+
+										<button type="button"
+											ng-class="['btn', 'btn-warning', 'btn-sm']"
+											ng-click="reset()" title="{{ 'btn_annulla'| translate}}">{{'btn_annulla'|
+											translate}}</button>
+									</div>
+								</div>
+							</form>
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="register" role="tabpanel"
+						aria-labelledby="register-tab">
+
+						<div class="col-md-auto">
+							<form ng-submit="register()">
+								<div class="form-group row margin-bottom-0">
+									<label for="email"
+										class="col-sm-2 col-form-label-sm text-right">{{('label_email'|
+										translate)+ " *"}}</label>
+									<div class="col-sm-8">
+										<input type="email" type="text"
+											class="form-control form-control form-control-sm" id="email"
+											ng-model="credential.email" ng-init="credential.email = ''"
+											onfocus="this.removeAttribute('readonly');" readonly>
+									</div>
+								</div>
+								<div class="form-group row margin-bottom-0">
+									<label for="user" class="col-sm-2 col-form-label-sm text-right">{{('label_username'|
+										translate)+ " *"}}</label>
+									<div class="col-sm-8">
+										<input type="text"
+											class="form-control form-control form-control-sm" id="user"
+											ng-model="credential.username"
+											ng-init="credential.username = ''"
+											onfocus="this.removeAttribute('readonly');" readonly>
+									</div>
+								</div>
+								<div class="form-group row margin-bottom-0">
+									<label for="passwordRegister "
+										class="col-sm-2 col-form-label-sm text-right">{{('label_password'|
+										translate)+ " *"}}</label>
+									<div class="col-sm-8">
+										<input type="password" class="form-control form-control-sm"
+											id="passwordRegister" ng-model="credential.password"
+											ng-init="credential.password = ''"
+											onfocus="this.removeAttribute('readonly');" readonly>
+									</div>
+								</div>
+								<div class="form-group row margin-bottom-0">
+									<label for="data_nascita"
+										class="col-sm-2 col-form-label-sm text-right">{{('label_data_nascita'|
+										translate)}} </label>
+									<div class="col-sm-3">
+										<select class="form-control form-control-sm" id="data_nascita"
+											ng-model="credential.data_nascita"
+											onfocus="this.removeAttribute('readonly');" readonly>
+											<option ng-repeat="year in years">{{year}}</option>
+
+										</select>
+									</div>
+								</div>
+								<div class="form-group row margin-bottom-0 margin-top-10">
+									<label class="col-sm-6 col-form-label-sm text-right">{{"label_visualizza"
+										| translate}} <a class="font-size-piccolo"
+										href="meta/privacy.pdf" target="_blank"> {{"qui" |
+											translate}} </a> {{"label_condizioni" | translate}}
+									</label>
+								</div>
+								<div class="form-group row margin-bottom-0">
+									<label for="termsConds "
+										class="col-sm-5 col-form-label-sm text-right">{{('label_termini_privacy'|
+										translate) + " *"}} <input type="checkbox" id="termsConds"
+										ng-model="termsConds" ng-init="termsConds = false"
+										class="form-control-sm">
+									</label>
+								</div>
+								<div class="form-group row margin-bottom-0">
+									<label for="newsletter "
+										class="col-sm-5 col-form-label-sm  text-right">{{'label_termini_news_letter'|
+										translate}} <input type="checkbox" id="newsletter"
+										ng-model="credential.acceptNewsLetter"
+										ng-init="acceptNewsLetter = false" class="form-control-sm">
+									</label>
+								</div>
+								<div class="form-group row margin-bottom-0 margin-top-10">
+									<label
+										class="col-sm-8 col-form-label-sm color-yellow font-size-piccolo">{{'label_campi_asterisco'|
+										translate}} </label>
+
+								</div>
+								<div class="form-group row margin-bottom-0  text-center">
+									<div class="col-md-12">
+										<button type="submit"
+											ng-class="['btn', 'btn-primary',{'disabled-no-action':  credential.password == '' ||
+											  credential.username == '' ||
+											  credential.email    == '' || !termsConds
+											  }, 'btn-sm']"
+											ng-disabled=" credential.password == '' ||
+											  credential.username == '' ||
+											  credential.email    == '' ||
+											   !termsConds
+										"
+											title="{{ 'btn_register'| translate}}">{{'btn_register'|
+											translate}}</button>
+										<button type="button"
+											ng-class="['btn', 'btn-warning', 'btn-sm']"
+											ng-click="resetRegister()"
+											title="{{ 'btn_annulla'| translate}}">{{'btn_annulla'|
+											translate}}</button>
+									</div>
+								</div>
+
+							</form>
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="psw_reset" role="tabpanel"
+						aria-labelledby="reset-psw-tab">
+						<div class="form-group row margin-bottom-0">
+							<label for="email" class="col-sm-2 col-form-label-sm  text-right">{{('label_email'|
+								translate)+ " *"}}</label>
+							<div class="col-sm-8">
+								<input type="email"
+									class="form-control form-control form-control-sm"
+									id="resetMail" ng-model="resetMail" ng-init="resetMail = ''"
+									onfocus="this.removeAttribute('readonly');" readonly>
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0 margin-top-10">
+							<label class="col-sm-8 col-form-label-sm color-blue">{{'label_reset_psw_sbnweb'|
+								translate}} </label> <label
+								class="col-sm-8 col-form-label-sm color-yellow">{{'label_campi_asterisco'|
+								translate}} </label>
+						</div>
+
+						<div class="form-group row margin-bottom-0 text-center">
+							<div class="col-md-12">
+
+								<button type="button" ng-class="['btn', 'btn-danger', 'btn-sm']"
+									ng-click="resetPassword()">{{'btn_reset_psw'|
+									translate}}</button>
+								<button type="button" ng-click="checkSbnWebUser()"
+									ng-class="['btn', 'btn-primary', 'btn-sm']"
+									title="{{ 'btn_reset_psw_sbnweb'| translate}}">
+									{{'btn_reset_psw_sbnweb'| translate}}</a>
+								</button>
+								<button type="button"
+									ng-class="['btn', 'btn-warning', 'btn-sm']"
+									ng-click="resetMail = ''" title="{{ 'btn_annulla'| translate}}">{{'btn_annulla'|
+									translate}}</button>
+							</div>
+						</div>
+					</div>
+					<div id="alert" class="alert alert-warning margin-top-20 col-md-12"
+						role="alert">
+						{{error_text | translate}}
+						<button type="button" class="close" ng-click="dismissAlert()"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+</div>
+<ng-include src=" 'html/templates/footer.html' "></ng-include>

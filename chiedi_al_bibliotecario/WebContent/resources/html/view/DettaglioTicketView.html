@@ -1,0 +1,318 @@
+<ng-include src=" 'html/templates/navbar.html' "></ng-include>
+<div class="container">
+	<div id="titlepage" class="col-md-auto row">
+		<div class="col-md-12 margin-top-20 padding-0">
+			<div class="col-md-12 padding-0">
+				<h3>
+					{{(controller | translate) + " - " + ticket.ticket.id}}<!-- <span
+						ng-if="!ticket.ticket.aperto"
+						class="badge badge-pill badge-warning">{{'label_closed' |
+						translate}} </span>  --> 
+						&nbsp;&nbsp;
+					<button class="btn btn-primary btn-sm" ng-click="goBack()">
+						{{'btn_torna_segnalazioni' |translate}}</button>
+				</h3>
+			</div>
+			<div class="col-md-1 float-right"></div>
+		</div>
+	</div>
+	<div class="col-md-auto row justify-content-center" ng-show="isLoading">
+
+		<center>
+			<div class="loader"></div>
+		</center>
+	</div>
+	<div class="col-md-auto row" ng-show="!isLoading">
+		<div class="card col-md-12">
+			<form class="margin-15">
+				<div class="form-group row margin-bottom-0"
+					ng-show="isFilled(ticket.ticket.ts_ins)">
+					<label class="col-md-2 col-form-label-sm color-blue  text-right">{{"label_pubblicato_il"
+						| translate}}</label>
+					<div class="col-sm-8">{{ticket.ticket.ts_ins | date: 'dd/MM/yyyy - HH:mm'}}</div>
+				</div>
+				<div class="form-group row margin-bottom-0"
+					ng-show="isFilled(ticket.ticket.titolo)">
+					<label for="titolo"
+						class="col-md-2 col-form-label-sm color-blue  text-right">{{('label_oggetto_segnalazione'
+						| translate)}}</label>
+					<div class="col-sm-8 margin-top-5">{{ticket.ticket.titolo}}</div>
+				</div>
+				<div class="form-group row margin-bottom-0"
+					ng-show="isFilled(ticket.ticket.motivo_richiesta)">
+					<label for="motivo_richiesta"
+						class="col-md-2 col-form-label-sm color-blue  text-right">{{'label_motivo_richiesta'
+						| translate}}</label>
+					<div class="col-sm-8 margin-top-5">{{ticket.ticket.motivo_richiesta}}</div>
+				</div>
+				<div class="form-group row margin-bottom-0"
+					ng-show="isFilled(ticket.ticket.id_cat)">
+					<label for="id_cat"
+						class="col-md-2 col-form-label-sm  color-blue text-right">{{('label_id_categoria'
+						| translate) }}</label>
+					<div class="col-sm-8 margin-top-5">
+						{{categories[findIndex(categories,'id',
+						ticket.ticket.id_cat)].testo_it}}</div>
+				</div>
+				<div class="form-group row margin-bottom-0"
+					ng-show="isFilled(ticket.ticket.cod_biblioteca_ind) && 
+					isFilled( biblioteche[findIndex(biblioteche,'cod_bib',ticket.ticket.cod_biblioteca_ind)])">
+					<label for="bibliotecheSelect"
+						class="col-md-2 col-form-label-sm color-blue  text-right">{{('label_biblioteca_destinataria'
+						| translate)}}</label>
+					<div class="col-sm-8 margin-top-5">
+						{{ biblioteche[findIndex(biblioteche,'cod_bib',
+						ticket.ticket.cod_biblioteca_ind)].cod_bib +' - '  + biblioteche[findIndex(biblioteche,'cod_bib',
+						ticket.ticket.cod_biblioteca_ind)].nome}}</div>
+				</div>
+				<div class="form-group row margin-bottom-0"
+					ng-show="isFilled(ticket.ticket.allegato)">
+					<label for="allegato"
+						class="col-md-2 col-form-label-sm color-blue  text-right">{{'label_allegato'
+						| translate}}</label> <label for="allegato"
+						class="col-md-2 col-form-label-sm ng-hide color-blue">{{'label_allegato'
+						| translate}}</label>
+					<div class="col-md-5 margin-top-5" ng-show="ticket.ticket.allegato">
+						<div class="col-md-12">
+							<img class="img-fluid" style="max-width: 45%;"
+								ng-src="files/get/allegato/ticket/{{ticket.ticket.id + '/' + ts()}}"
+								onerror="this.src = 'images/paperclip.png';"> 
+								<a	target="_blank"
+								ng-href="files/get/allegato/ticket/{{ticket.ticket.id + '/' + ts()}}">{{'label_vedi_allegato'
+								|translate}} </a>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="form-group row margin-bottom-0"
+					ng-show="isFilled(ticket.ticket.testo)">
+					<label for="testo"
+						class="col-md-2 col-form-label-sm color-blue  text-right">{{('label_testo'
+						| translate)}}</label>
+					<div class="col-sm-8 margin-top-5">{{ticket.ticket.testo}}</div>
+				</div>
+				<div class="form-group row margin-bottom-0"
+					ng-show="isFilled(ticket.ticket.ho_gia_fatto)">
+					<label for="label_ho_gia_fatto"
+						class="col-md-2 col-form-label-sm color-blue  text-right">{{'label_ho_gia_fatto'
+						| translate}}</label>
+					<div class="col-sm-8 margin-top-5">{{ticket.ticket.ho_gia_fatto}}</div>
+				</div>
+				<div class="form-group row margin-bottom-0"
+					ng-show="isFilled(ticket.ticket.pubblico)">
+					<label for="ticket_pubblico"
+						class="col-md-2 col-form-label-sm color-blue  text-right">{{'label_ticket_pubblico'|
+						translate}} </label>
+					<div class="col-md-8">{{ticket.ticket.pubblico| translate}}</div>
+				</div>
+				<div class="form-group row margin-bottom-0"
+					>
+					<label for="ticket_pubblico"
+						class="col-md-2 col-form-label-sm color-blue  text-right">{{'label_stato_ticket'|
+						translate}} </label>
+					<div class="col-md-8 margin-top-5">
+						<span ng-if="ticket.ticket.user_assegnato != null && ticket.ticket.aperto"
+							ng-class="['badge','badge-pill' ,'badge-success', 'card-link']">
+							{{(("label_assegnato" | translate) | lowercase) + ticket.ticket.user_assegnato}} </span> 
+							
+							<span
+							ng-if="ticket.ticket.user_assegnato == null && ticket.ticket.aperto"
+							ng-class="['badge','badge-pill' ,'badge-info', 'card-link']">
+							{{("label_ancora_non_assegnato"|translate) | lowercase}} </span> <span
+							ng-class="['badge','badge-pill' ,'badge-warning', 'card-link']"
+							ng-if="ticket.ticket.user_assegnato != null && !ticket.ticket.aperto">
+							{{'label_closed' | translate}}</span> 
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	</div>
+<div class="container">
+
+
+	<!--  Visualizzazione messaggi -->
+	<div id="viewMessages" class="col-md-auto row padding-0"
+		ng-show="!isLoading && ticket.messaggi.length > 0">
+
+		<div class="col-md-12 margin-top-10">
+			<div class="col-md-6 padding-0">
+				<h5>{{('label_risposte' | translate)}}</h5>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div id="ticket-view"
+			ng-class="['card','margin-top-5',{'background-yellow': user.username == messaggio.username_ins},
+										 { 'background-blue': user.username != messaggio.username_ins}]"
+				ng-repeat="messaggio in ticket.messaggi">
+				<div class="card-body ">
+					<div class="card-text row">
+						<div
+							ng-class="[{'col-md-10': messaggio.allegato},{'col-md-12': !messaggio.allegato},'text-left']">{{messaggio.testo}}</div>
+						<div class="col-md-2 text-center" ng-if="messaggio.allegato">
+							<div class="col-md-12">
+								<img class="img-fluid img-size"
+									ng-src="files/get/allegato/messaggio/{{ticket.ticket.id}}/{{messaggio.id + '/' + ts()}}"
+									onerror="this.src = 'images/paperclip.png';">
+							</div>
+							<a target="_blank"
+								ng-href="files/get/allegato/messaggio/{{ticket.ticket.id}}/{{messaggio.id +'/' + ts()}}">{{'label_vedi_allegato'
+								|translate}} </a>
+						</div>
+					</div>
+					<div class="card-text">
+						<span class="color-blue"> {{("label_pubblicato_il" |
+							translate) + " "}}</span>{{messaggio.ts_ins | date: 'dd/MM/yyyy - HH:mm'}}
+					</div>
+
+					<span class="h6 card-link">
+						<span class="color-blue">{{("label_inserito_da" |
+							translate) + " " }}</span> <i ng-class="[{'color-yellow': user.username == messaggio.username_ins},
+										 { 'color-blue': user.username != messaggio.username_ins}]">{{messaggio.username_ins | translate}}</i>
+					</span>
+					<a ng-if="(user.isBibliotecario || user.username == messaggio.username_ins) && ticket.ticket.aperto" ng-click="addFormMessage(messaggio)" class="h6-link card-link action-link" >{{'link_modifica_commento' | translate}}</a>
+					<a
+				ng-if="(user.isBibliotecario || user.username == messaggio.username_ins) && ticket.ticket.aperto"
+				class="h6-link card-link action-link color-red" ng-click="deleteMessage(messaggio)">{{'btn_delete_message'
+				| translate}}</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<!-- Action bar-->
+	<div ng-if="ticket.ticket.aperto"
+		class="col-md-auto row margin-top-10 " id="actionBar"
+		ng-show="!isLoading">
+
+
+		<div class="col-md-12 text-center justify-content-center">
+			<span title="{{'label_assegna_a' | translate}}"
+				ng-if="(ticket.ticket.user_assegnato == null || user.isAdmin) && user.isBibliotecario">{{'label_assegna_a'
+				| translate}} <select class="custom-select col-md-2 form-control-sm"
+				id="user_assign" ng-model="bibliotecarioAssegnato"
+				ng-init="bibliotecarioAssegnato  = null">
+
+					<option></option>
+					<option ng-repeat="bib in bibliotecari" value="{{bib.username}}">{{bib.username}}</option>
+			</select>
+				<button class="btn btn-secondary  btn-sm"
+					ng-show="bibliotecarioAssegnato  != null"
+					ng-click="assignTO(bibliotecarioAssegnato)"  title="{{'btn_assegna' | translate}}">{{'btn_assegna'
+					| translate}}</button>
+			</span>
+
+			<button class="btn btn-primary btn-sm" ng-click="addFormMessage()" 
+			 title="{{'btn_add_message' | translate}}">{{'btn_add_message'
+				| translate}}</button>
+
+			
+				<button
+				ng-if="user.isBibliotecario || user.username == ticket.ticket.user_ins"
+				class="btn btn-warning btn-sm" ng-click="editTicket()" 
+				title="{{'btn_modifica_ticket' | translate}}">{{'btn_modifica_ticket'
+				| translate}}</button>
+			<button
+				ng-if="user.isBibliotecario || user.username == ticket.ticket.user_ins"
+				class="btn btn-danger  btn-sm" ng-click="deleteTicket()"
+				title="{{'btn_delete_ticket' | translate}}">{{'btn_delete_ticket'
+				| translate}}</button>
+				<button
+				ng-if="user.isBibliotecario && ticket.ticket.user_assegnato != null"
+				class="btn btn-warning  btn-sm" ng-click="closeTicket()"
+				title="{{'btn_close_ticket' | translate}}">{{'btn_close_ticket'
+				| translate}}</button>
+				
+		</div>
+		
+	</div>
+<div id="alert" ng-class="['alert','col-md-12', 'text-left', 'margin-top-20', {'alert-info': error_text != 'NOT_ALLOWED'},  {'alert-danger': error_text == 'NOT_ALLOWED'}]"
+						role="alert">{{(error_text | translate) }}<p ng-if="error_text == 'NOT_ALLOWED'"> {{("ERROR_TICKET_EVASO_CONCORRENZA" | translate | lowercase)}}</p>
+						<button type="button" class="close" ng-click="dismissAlert()"
+							aria-label="Close" >
+							<span aria-hidden="true">&times;</span>
+						</button>
+						</div>
+	<div ng-if="ticket.ticket.aperto" class="col-md-auto row"
+		id="messageForm" ng-show="(showMessageForm && !isLoading)">
+		<div class="col-md-12 margin-top-10">
+			<div class="col-md-6 padding-0"">
+				<h5>{{( using_form_text | translate)}}</h5>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<form>
+
+				<div ng-show="isAddingMessage" class="form-group row">
+					<label for="allegato" class="col-md-2 col-form-label-sm">{{'label_allegato'
+						| translate}}</label>
+
+					<div class="col-md-1">
+						<input type="checkbox" style="margin-top: 25%;"
+							class="form-control-sm" id="hasAllegato"
+							ng-model="messageToAdd.messaggio.allegato"
+							ng-init="messageToAdd.messaggio.allegato = false">
+
+					</div>
+					<div class="col-md-5" ng-show="messageToAdd.messaggio.allegato">
+						<input type="file" class="form-control form-control-sm"
+							id="allegato" files-input ng-model="messageToAdd.files"
+							ng-init="messageToAdd.files = []">
+						<!--  accept="image/x-png,image/gif,image/jpeg" -->
+					</div>
+				</div>
+				
+				<div ng-show="isAddingMessage" class="form-group row">
+					<label for="testo" class="col-md-2 col-form-label-sm">{{'label_testo'
+						| translate}}</label>
+					<div class="col-sm-8">
+						<textarea rows="8" class="form-control" id="testo"
+							ng-model="messageToAdd.messaggio.testo"
+							ng-init="messageToAdd.messaggio.testo = ''"></textarea>
+					</div>
+				</div>
+				<div ng-show="deletingMessage.isDeleting || deletingTicket" class="form-group row"
+				>
+					<label class="col-md-6 col-form-label-sm" ng-show="deletingMessage.isDeleting">
+					{{('label_sicuro_eliminare' | translate)}}<b>&nbsp;{{deletingMessage.message.testo}}&nbsp;</b>{{'?'}}
+					</label>
+				<label class="col-md-6 col-form-label-sm" ng-show="deletingTicket">
+					{{('label_sicuro_eliminare_ticket' | translate)}}<b>&nbsp;{{ticket.ticket.id}}&nbsp;</b>{{'?'}}
+				
+				</label>
+				</div>
+				<div class="form-group row text-center">
+					<div class="col-md-12">
+
+					<button ng-show="isAddingMessage" type="button"
+						title="{{(messageToAdd.isUpdating) ? 'btn_conferma' : 'btn_inserisci' | translate}}"
+							ng-class="['btn',{'btn-primary': messageToAdd.isUpdating == false},
+									{'btn-primary': messageToAdd.isUpdating == true }
+									,{'disabled-no-action':
+											  messageToAdd.messaggio.testo  == '' 
+											  }, 'btn-sm']"
+							ng-disabled="messageToAdd.messaggio.testo   == '' "
+							ng-click="addMessage()">{{(messageToAdd.isUpdating) ? 'btn_conferma' : 'btn_inserisci' | translate}}</button>
+					
+					<button ng-show="deletingMessage.isDeleting" type="button" ng-class="['btn', 'btn-danger', 'btn-sm']"
+							ng-click="confirmDeleteMessage()" 
+							title="{{ 'btn_conferma'| translate}}">{{'btn_conferma' | translate}}</button>
+							
+					<button ng-show="deletingTicket" type="button" ng-class="['btn', 'btn-danger', 'btn-sm']"
+							ng-click="confirmDeleteTicket()" title="{{ 'btn_conferma'| translate}}">{{'btn_conferma' | translate}}</button>
+							
+					<button type="button" ng-class="['btn', 'btn-warning', 'btn-sm']"
+							ng-click="reset()" title="{{ 'btn_annulla'| translate}}">{{'btn_annulla' | translate}}</button>
+					</div>
+
+				</div>
+
+
+			</form>
+		</div>
+	</div>
+</div>
+<ng-include src=" 'html/templates/footer.html' "></ng-include>

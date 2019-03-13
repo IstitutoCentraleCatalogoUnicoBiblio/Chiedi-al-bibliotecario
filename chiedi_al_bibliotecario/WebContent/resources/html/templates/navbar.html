@@ -1,0 +1,80 @@
+<div class="row no-margins">
+	<div class="col-md-4 text-center">
+		<img ng-if="conf_polo.cod_polo" ng-src="files/get/servizio/logo-{{conf_polo.cod_polo}}.png">
+		<img ng-show="!conf_polo.cod_polo" ng-src="files/get/servizio/logo-chiedi.png">
+		
+	</div>
+	<div class="col-md-4">
+	</div>
+	<div class="col-md-4 text-center align-self-center">
+		<h2>{{applicationBuild.applicationName}}</h2>
+	</div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light padding-0-16">
+	  <!-- <a ng-if="user && controller != 'welcome_controller'" class="navbar-brand">{{( ( 'label_nav_benvenuto' | translate ) + ' ' + user.username)}}</a> 
+	  --><button class="navbar-toggler" type="button" data-toggle="collapse"
+		data-target="#navbarNav" aria-controls="navbarNav"
+		aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNav">
+		<ul class="navbar-nav mr-auto">
+			<li ng-show="!user.passwordIsToReset" ng-if="user"
+				ng-class="['nav-item', {'active': controller == 'label_nav_segnalazioni_aperte'}]">
+				<a class="nav-link" ng-click="goSegnalazioni()"
+				ng-href="{{conf_polo.cod_polo}}/segnalazioni" title="{{'label_nav_segnalazioni_aperte' | translate}}">{{'label_nav_segnalazioni_aperte'
+					|translate}} </a>
+			</li>
+			<li ng-show="!user.passwordIsToReset" ng-if="user"
+				ng-class="['nav-item', {'active': controller == 'new_ticket'}]">
+				<a class="nav-link" ng-href="{{conf_polo.cod_polo}}/nuovaSegnalazione" title="{{'label_nav_new_ticket' | translate}}">{{'label_nav_new_ticket'
+					| translate }}</a>
+			</li>
+			<li ng-if="user"
+				ng-class="['nav-item', {'active': controller == 'profilo'}]"><a
+				class="nav-link" ng-href="{{conf_polo.cod_polo}}/profilo/{{user.username}}" 
+				title="{{'label_nav_profilo' | translate}}">{{'label_nav_profilo'
+					| translate }}</a></li>
+			<li ng-show="!user.passwordIsToReset" ng-if="user && user.isAdmin"
+				ng-class="['nav-item', {'active': controller == 'amministrazione'}]">
+				<a class="nav-link" ng-href="{{conf_polo.cod_polo}}/admin" title="{{'label_admin' | translate}}">{{'label_admin' | translate
+					}}</a>
+			</li>
+			<!-- <li ng-if="!user"
+				ng-class="['nav-item', {'active': controller == 'login'}]"><a
+				class="nav-link" ng-href="login" title="{{'label_login' | translate}}">{{'label_login' | translate }}</a>
+			</li> -->
+			<li ng-if="faqs.length > 0"
+				ng-class="['nav-item', {'active': controller == 'label_faq'}]""><a
+				class="nav-link" ng-href="{{conf_polo.cod_polo}}/FAQ"
+				title="{{'label_faq' | translate}}">{{'label_faq' | translate }}</a></li>
+
+
+			</li>
+			<li ng-class="['nav-item']"><a
+				class="nav-link" href="meta/Guida_chiedi_al_bibliotecario-1.0.pdf" target="_blank"
+				title="{{('apri_pag_nuova' | translate) + ' ' + ('label_guida_utente' | translate | lowercase)}}">{{'label_guida_utente' | translate }}</a></li>
+
+
+			</li>
+		</ul>
+		<ul class="navbar-nav">
+			<a ng-if="user && controller != 'welcome_controller'"
+				class="navbar-brand" 
+				title="{{'label_nav_benvenuto' | translate}}">{{( ( 'label_nav_benvenuto' | translate ) +
+				' ' + user.username)}}</a>
+			<li ng-if="user" ng-class="['nav-item', 'action-link', 'logout']"><a
+				class="nav-link" data-toggle="modal" data-target="#logOutModal"
+				style="display: inline-flex; color: #b12d3a;" 
+				title="{{'label_nav_logout' | translate}}">{{('label_nav_logout' | translate) + " "
+					}}&nbsp;<img src="images/logout.png"  style="max-width: 20px; max-height: 20px;"/>
+			</a></li>
+				<li ng-if="!user && controller != 'login'" ng-class="['nav-item', {'active': controller == 'login'}]"><a
+				class="nav-link" style="display: inline-flex; color: #b12d3a;" 
+				title="{{'label_login' | translate}}"  ng-href="{{conf_polo.cod_polo}}/login">{{('label_login' | translate) + " "
+					}}&nbsp;<img src="images/login3.png" style="max-width: 20px; max-height: 20px;"/>
+			</a></li>
+		</ul>
+	</div>
+</nav>

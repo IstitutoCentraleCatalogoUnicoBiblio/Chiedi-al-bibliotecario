@@ -1,0 +1,173 @@
+<ng-include src=" 'html/templates/navbar.html' "></ng-include>
+<div class="container">
+	<div id="titlepage" class="col-md-auto row">
+		<div class="col-md-12 margin-top-20">
+			<div class="col-md-6 padding-0">
+				<h3>{{controller | translate}}</h3>
+			</div>
+		</div>
+	</div>
+	<div id="ticketlist" class="col-md-auto row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body" ng-show="isLoading">
+					<div class=" justify-content-center">
+						<center>
+							<div class="loader"></div>
+						</center>
+					</div>
+				</div>
+				<div class="card-body" ng-show="!isLoading">
+					<form>
+						<div class="form-group row margin-bottom-0">
+							<label for="titolo"
+								class="col-sm-2 col-form-label-sm  text-right">{{('label_oggetto_segnalazione'
+								| translate) + " *"}}</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control form-control-sm"
+									id="titolo" ng-model="ticket.ticket.titolo"
+									ng-trim="true">
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0">
+							<label for="motivo_richiesta"
+								class="col-sm-2 col-form-label-sm  text-right">{{'label_motivo_richiesta'
+								| translate}}</label>
+							<div class="col-sm-8">
+								<select class="form-control form-control-sm"
+									id="motivo_richiesta"
+									ng-model="	ticket.ticket.motivo_richiesta"
+									>
+									<!-- <option></option> -->
+									<option ng-repeat="motivo in motivi">{{motivo}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0">
+							<label for="id_cat" class="col-sm-2 col-form-label-sm text-right">{{('label_id_categoria'
+								| translate) + " *"}}</label>
+							<div class="col-sm-8">
+								<select class="form-control form-control-sm" id="cats"
+									ng-model="ticket.ticket.id_cat"
+									ng-init="	ticket.ticket.id_cat  = initCat.toString()">
+									<option></option>
+									<option ng-repeat="cat in categories" value="{{cat.id}}">{{cat.testo_it}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0">
+							<label for="bibliotecheSelect"
+								class="col-sm-2 col-form-label-sm  text-right">{{('label_biblioteca_destinataria'
+								| translate)}}</label>
+							<div class="col-sm-8">
+								<select class="form-control form-control-sm"
+									id="bibliotecheSelect"
+									ng-model="ticket.ticket.cod_biblioteca_ind"
+									>
+									<option></option>
+									<option ng-repeat="biblioteca in biblioteche"
+										value="{{biblioteca.cod_bib}}">{{biblioteca.nome}}</option>
+								</select>
+							</div>
+						</div>
+			
+
+						<div class="form-group row margin-bottom-0">
+							<label for="testo" class="col-sm-2 col-form-label-sm  text-right">{{('label_testo'
+								| translate) + " *"}}</label>
+							<div class="col-sm-8">
+								<textarea rows="8" class="form-control form-control-sm"
+									id="testo" ng-model="ticket.ticket.testo"
+									ng-trim="true"></textarea>
+							</div>
+						</div>
+							<div class="form-group row margin-bottom-0 margin-top-5">
+							<label for="hasAllegato"
+								class="col-sm-2 col-form-label-sm  text-right">{{'label_allegato'
+								| translate}}</label>
+							<div class="col-md-1">
+								<input type="checkbox" style="margin-top: 25%;"
+									class="form-control-sm" id="hasAllegato"
+									ng-model="ticket.ticket.allegato"
+									>
+
+							</div>
+							<label for="allegato" class="col-sm-2 col-form-label-sm ng-hide">{{'label_allegato'
+								| translate}}</label>
+							<div class="col-md-5" ng-show="ticket.ticket.allegato">
+								<input ng-show="ticket.ticket.allegato" type="file"
+									class="form-control form-control-sm" id="allegato" files-input
+									ng-model="ticket.files" >
+								<!-- accept="image/x-png,image/gif,image/jpeg" -->
+							</div>
+						</div>
+						<div class="form-group row margin-top-5">
+							<label for="label_ho_gia_fatto"
+								class="col-sm-2 col-form-label-sm  text-right">{{'label_ho_gia_fatto'
+								| translate}}</label>
+							<div class="col-sm-8">
+								<textarea rows="3" class="form-control form-control-sm"
+									id="label_ho_gia_fatto" ng-model="ticket.ticket.ho_gia_fatto"
+									ng-trim="true"></textarea>
+							</div>
+						</div>
+						<div class="form-group row margin-bottom-0">
+							<label for="ticket_pubblico"
+								class="col-sm-4 col-form-label-sm text-center">{{'label_ticket_pubblico'|
+								translate}} <input type="checkbox" id="ticket_pubblico"
+								ng-model="ticket.ticket.pubblico"
+								class="form-control-sm">
+							</label>
+							<label class="col-form-label-sm text-right color-yellow" for="ticket_pubblico" ng-show="ticket.ticket.pubblico">
+							{{'label_ticket_pubblico_policy' | translate}}
+							</label>
+						</div>
+					
+						<div class="form-group row margin-bottom-0">
+							<label class="col-sm-8 col-form-label-sm color-yellow">{{'label_campi_asterisco'|
+								translate}} </label>
+
+						</div>
+						<div class="form-group row margin-bottom-0  text-center">
+							<div class="col-md-12">
+								<button type="submit"  title="{{(isEditingTicket ? 'btn_conferma':'btn_inserisci') | translate}}"
+									ng-class="['btn', 'btn-primary',{'disabled-no-action':
+											  ticket.ticket.titolo == '' ||
+											  ticket.ticket.testo  == '' ||
+										ticket.ticket.id_cat  == ''
+											  }, 'btn-sm']"
+									ng-disabled="  ticket.ticket.titolo == '' ||
+											  ticket.ticket.testo   == '' ||
+											  	ticket.ticket.id_cat  == ''
+										"
+									ng-click="confirm()">{{(isEditingTicket ? 'btn_conferma':'btn_inserisci') | translate}}</button>
+								
+
+									
+								<button ng-show="isEditingTicket" type="button"
+									ng-class="['btn', 'btn-warning', 'btn-sm']" ng-click="dettaglio()" title="{{'btn_torna_dettaglio' | translate}}">{{'btn_torna_dettaglio'
+									| translate}}</button>	
+								<button ng-show="!isEditingTicket" type="button"
+									ng-class="['btn', 'btn-warning', 'btn-sm']" ng-click="reset()" title="{{'btn_annulla' | translate}}">{{'btn_annulla'
+									| translate}}</button>
+							</div>
+						</div>
+						<div
+							class="form-group row margin-bottom-0  justify-content-center">
+							<div id="alert" ng-class="['alert',{'alert-warning': error_text != 'OK' },
+									{'alert-info': error_text == 'OK' }, 'margin-top-20', 'col-md-12']"
+								role="alert">{{error_text | translate}}
+								<button type="button" class="close" ng-click="dismissAlert()"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button></div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<ng-include src=" 'html/templates/footer.html' "></ng-include>

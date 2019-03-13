@@ -1,0 +1,159 @@
+<ng-include src=" 'html/templates/navbar.html' "></ng-include>
+<div class="container">
+	<div id="titlepage" class="col-md-auto row">
+		<div class="col-md-12 margin-top-20">
+			<div class="col-md-6 padding-0">
+				<h3>{{controller | translate}}</h3>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-auto">
+		<div class="card">
+			<div class="card-body">
+
+				<div class=" justify-content-center" ng-show="isLoading">
+					<center>
+						<div class="loader"></div>
+					</center>
+				</div>
+				<div class=" justify-content-center" ng-show="!isLoading">
+					<div class="col-md-auto">
+						<form>
+							<div class="form-group row margin-bottom-0" ng-show="!wantChangePsw">
+								<label for="userame" class="col-sm-2 col-form-label-sm">{{'label_username'|
+									translate}}</label>
+								<div class="col-sm-8">
+									<input type="text" type="text"
+										class="form-control form-control-sm" id="username"
+										ng-model="userEdit.username" disabled>
+								</div>
+							</div>
+
+							<!--<div class="form-group row margin-bottom-0" ng-show="!wantChangePsw">
+								<label for="nome" class="col-sm-2 col-form-label-sm">{{'label_nome'|
+									translate}}</label>
+								<div class="col-sm-8">
+									<input type="text" type="text"
+										class="form-control form-control-sm" id="nome"
+										ng-model="userEdit.nome" ng-disabled="!isEditing">
+								</div>
+							</div>
+							<div class="form-group row margin-bottom-0" ng-show="!wantChangePsw">
+								<label for="cognome" class="col-sm-2 col-form-label-sm">{{'label_cognome'|
+									translate}}</label>
+								<div class="col-sm-8">
+									<input type="text" type="text"
+										class="form-control form-control-sm" id="cognome"
+										ng-model="userEdit.cognome" ng-disabled="!isEditing">
+								</div>
+							</div> -->
+							<div class="form-group row margin-bottom-0" ng-show="!wantChangePsw">
+								<label for="data_nascita" class="col-sm-2 col-form-label-sm">{{'label_data_nascita'|
+									translate}}</label>
+								<div class="col-sm-3">
+									<select class="form-control form-control-sm" id="data_nascita"
+										ng-model="userEdit.data_nascita" ng-disabled="!isEditing">
+										<option ng-repeat="year in years">{{year}}</option>
+
+									</select>
+								</div>
+							</div>
+							<div class="form-group row margin-bottom-0" ng-show="!wantChangePsw">
+								<label for="email" class="col-sm-2 col-form-label-sm">{{'label_email'|
+									translate}}</label>
+								<div class="col-sm-8">
+									<input type="email" type="text"
+										class="form-control form-control-sm" id="email"
+										ng-model="userEdit.email" ng-disabled="!isEditing">
+								</div>
+							</div>
+
+							<!--  edit password -->
+							<div class="form-group row margin-bottom-0" ng-show="wantChangePsw">
+								<label for="label_password" class="col-sm-2 col-form-label-sm">{{'label_password'|
+									translate}}</label>
+								<div class="col-sm-8">
+									<input type="password" class="form-control form-control-sm"
+										id="label_password" ng-model="newPsw.old_psw">
+								</div>
+							</div>
+							<div class="form-group row margin-bottom-0" ng-show="wantChangePsw">
+								<label for="label_new_psw" class="col-sm-2 col-form-label-sm">{{'label_new_psw'|
+									translate}}</label>
+								<div class="col-sm-8">
+									<input type="password" class="form-control form-control-sm"
+										id="label_new_psw" ng-model="newPsw.new_psw">
+								</div>
+							</div>
+							<div class="form-group row margin-bottom-0" ng-show="wantChangePsw">
+								<label for="password" class="col-sm-2 col-form-label-sm">{{'label_new_psw_again'|
+									translate}}</label>
+								<div class="col-sm-8">
+									<input type="password" class="form-control form-control-sm"
+										id="label_new_psw_again" ng-model="newPsw.repeat_new_psw">
+								</div>
+							</div>
+							<div class="form-group row margin-bottom-0" ng-if="user.sbnweb"
+								ng-show="wantChangePsw">
+								<div class="col-sm-8 text-center">
+									<div id="alert_info" class="col-md-12 alert alert-info"
+										role="alert">{{'label_cambio_psw_sbnweb' | translate}}
+										</div>
+								</div>
+							</div>
+
+							<div class="form-group row margin-bottom-0 text-center">
+								<div class="col-md-12">
+									<button ng-show="!isEditing && !wantChangePsw" type="button"
+										ng-class="['btn', 'btn-primary', 'btn-sm']"
+										ng-click="startEdit()"
+										title="{{ 'btn_modifica_profilo'| translate}}">{{'btn_modifica_profilo'|
+										translate}}</button>
+									<button ng-show="isEditing && !wantChangePsw" type="button"
+										ng-class="['btn', 'btn-primary', 'btn-sm']"
+										ng-click="saveEdit()" title="{{ 'btn_salva'| translate}}">{{'btn_salva'| translate}}</button>
+									<button ng-show="wantChangePsw" type="button"
+										ng-class="['btn', 'btn-primary', 'btn-sm']"
+										ng-click="changePsw()" title="{{ 'btn_salva_psw'| translate}}">{{'btn_salva_psw'| translate}}</button>
+									
+								
+									<button ng-show="wantChangePsw" type="button"
+										ng-class="['btn', 'btn-danger', 'btn-sm']" ng-click="reset()"
+										title="{{ 'btn_indietro'| translate}}">{{'btn_indietro'|
+										translate}}</button>
+									<button ng-show="(!isEditing && !wantChangePsw) && !user.sbnweb" type="button"
+										ng-class="['btn', 'btn-warning', 'btn-sm']"
+										title="{{ 'btn_change_psw'| translate}}"
+										ng-click="startChangePsw()">{{'btn_change_psw'|
+										translate}}</button>
+											<button ng-show="wantChangePsw" type="button"
+										ng-class="['btn', 'btn-warning', 'btn-sm']"
+										title="{{ 'btn_annulla'| translate}}"
+										ng-click="startChangePsw()">{{'btn_annulla'|
+										translate}}</button>
+										<button ng-show="isEditing && !wantChangePsw" type="button"
+										ng-class="['btn', 'btn-warning', 'btn-sm']" ng-click="reset()"
+										title="{{ 'btn_annulla'| translate}}">{{'btn_annulla'|
+										translate}}</button>
+
+								</div>
+							</div>
+							<div class="form-group row margin-bottom-0" id="alert">
+								<div class="col-sm-12 text-center">
+									<div class="col-md-12 alert alert-info margin-top-20" role="alert">{{error_text
+										| translate}}
+										<button type="button" class="close" ng-click="dismissAlert()"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button></div>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ng-include src=" 'html/templates/footer.html' "></ng-include>

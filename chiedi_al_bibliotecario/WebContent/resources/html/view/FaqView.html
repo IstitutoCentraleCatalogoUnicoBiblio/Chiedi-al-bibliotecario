@@ -1,0 +1,38 @@
+<ng-include src=" 'html/templates/navbar.html' "></ng-include>
+<div class="container">
+	<div id="titlepage" class="col-md-auto row">
+		<div class=" col-md-12 row margin-top-20">
+			<div class="col-md-6">
+				<h3>{{controller | translate}}</h3>
+			</div>
+			<div class="col-md-6 text-right padding-0">
+			<button ng-class="['btn', 'btn-primary', 'btn-sm']"  ng-click="openAll()">
+					{{'apri_tutte_faq' | translate}} 
+					</button>
+				<span>&nbsp;&nbsp;</span>
+				<button ng-class="['btn', 'btn-primary', 'btn-sm']"  ng-click="closeAll()">
+					{{'chiudi_tutte_faq' | translate}} 
+					</button>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-auto">
+		<div class="card margin-top-10 " ng-repeat="faq in faqs">
+			<div class="faq-card-body">
+			<span>
+			<!--   ng-click="setIcon($index);" href="{{'#risposta_' + $index}}"  data-toggle="collapse"-->
+				<div ng-attr-id="{{'domanda_' + $index}}" ng-click="toggle($index, 'risposta_' + $index, faq)" class="faq-card-title h5 color-blue action-link" >
+						<span class="faq-title">
+							<i class="material-icons margin-right-15">{{faq.icon}}</i>
+							<span class="some-space-right">{{faq.domanda}} </span>
+						</span>
+					</div>
+				</span>
+				<div ng-attr-id="{{'risposta_' + $index}}" class="collapse card-text faq-padding-risposta">{{faq.risposta}}</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+<ng-include src=" 'html/templates/footer.html' "></ng-include>
