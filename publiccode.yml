@@ -1,0 +1,79 @@
+publiccodeYmlVersion: '0.2'
+name: Chiedi al bibliotecario
+releaseDate: '2019-03-13'
+url: 'https://github.com/IstitutoCentraleCatalogoUnicoBiblio/Chiedi-al-bibliotecario'
+developmentStatus: stable
+softwareType: standalone/web
+platforms:
+  - web
+usedBy:
+  - >-
+    Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le
+    Informazioni Bibliografiche
+categories:
+  - content-management
+  - customer-service-and-support
+  - data-collection
+  - digital-asset-management
+  - document-management
+maintenance:
+  type: contract
+  contractors:
+    - name: '???'
+      until: '2021-01-01'
+legal:
+  license: AGPL-3.0-only
+  mainCopyrightOwner: >-
+    Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le
+    Informazioni Bibliografiche
+  repoOwner: >-
+    Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le
+    Informazioni Bibliografiche
+intendedAudience:
+  scope:
+    - education
+    - research
+    - science-and-technology
+    - society
+  countries:
+    - it
+localisation:
+  localisationReady: false 
+  availableLanguages:
+    - it
+it:
+  countryExtensionVersion: '0.2'
+  riuso:
+    codiceIPA: m_bac
+description:
+  it:
+    genericName: Servizio di reference online
+    shortDescription: ' L''Opac di Polo SBN consente all''utenza web di accedere con modalità di ricerca amichevoli al catalogo in linea delle biblioteche'
+    longDescription: >
+      L’applicativo “Chiedi al bibliotecario” è un servizio di "reference”  on
+      line tramite il quale si possono richiedere informazioni per un 
+      orientamento nella ricerca bibliografica, sui servizi disponibili e sul 
+      materiale consultabile.
+
+
+      L’applicativo “Chiedi al bibliotecario” è un servizio di "reference”  on
+      line tramite il quale si possono richiedere informazioni per un 
+      orientamento nella ricerca bibliografica, sui servizi disponibili e sul 
+      materiale consultabile.
+
+
+      L’applicativo “Chiedi al bibliotecario” è un servizio di "reference”  on
+      line tramite il quale si possono richiedere informazioni per un 
+      orientamento nella ricerca bibliografica, sui servizi disponibili e sul 
+      materiale consultabile.
+
+
+      L’applicativo “Chiedi al bibliotecario” è un servizio di "reference”  on
+      line tramite il quale si possono richiedere informazioni per un 
+      orientamento nella ricerca bibliografica, sui servizi disponibili e sul 
+      materiale consultabile.
+    features:
+      - Richiesta informazioni
+      - Ricerca bibliografica
+      - Ricerca servizi
+      - Ricerca materiale consultabile
