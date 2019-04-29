@@ -6,11 +6,8 @@ developmentStatus: stable
 softwareType: standalone/web
 platforms:
   - web
-usedBy:
-  - ...
 categories:
   - customer-service-and-support
-  - bibliographic reference
 maintenance:
   type: contract
   contractors:
