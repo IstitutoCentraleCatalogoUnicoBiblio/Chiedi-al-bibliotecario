@@ -1,0 +1,50 @@
+publiccodeYmlVersion: '0.2'
+name: Chiedi al bibliotecario
+releaseDate: '2019-03-13'
+url: 'https://github.com/IstitutoCentraleCatalogoUnicoBiblio/Chiedi-al-bibliotecario'
+developmentStatus: stable
+softwareType: standalone/web
+platforms:
+  - web
+categories:
+  - customer-service-and-support
+maintenance:
+  type: contract
+  contractors:
+    - name: 'Almaviva'
+      until: '2021-05-31'
+legal:
+  license: AGPL-3.0-only
+  mainCopyrightOwner: Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le informazioni bibliografiche
+  repoOwner: Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le informazioni bibliografiche
+intendedAudience:
+  scope:
+    - research
+  countries:
+    - it
+localisation:
+  localisationReady: false 
+  availableLanguages:
+    - it
+it:
+  countryExtensionVersion: '0.2'
+  riuso:
+    codiceIPA: m_bac
+description:
+  it:
+    genericName: Servizio di reference online
+    shortDescription: ' L''Opac di Polo SBN consente all''utenza web di accedere con modalità di ricerca amichevoli al catalogo in linea delle biblioteche'
+    longDescription: >
+      L’applicativo "Chiedi al bibliotecario" è un servizio di "reference" on
+      line tramite il quale gli utenti possono richiedere informazioni ai
+      bibliotecari o ad altri utenti per avere consigli o spiegazioni, per un
+      orientamento nella ricerca bibliografica, sui servizi disponibili e sul
+      materiale consultabile. L’applicativo prevede una parte di back end in
+      cui è possibile l’inserimento/modifica di biblioteche, bibliotecari
+      e utenti. Gli utenti devono iscriversi ed effettuare il login per poter
+      utilizzare la funzione.
+    features:
+      - Richiesta informazioni
+      - Ricerca bibliografica
+      - Ricerca servizi
+      - Ricerca materiale consultabile
